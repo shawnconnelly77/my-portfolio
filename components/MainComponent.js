@@ -1,19 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import Home from './HomeComponent';
-import Directory from './DirectoryComponent';
-import About from "./AboutComponent";
-import Contact from "./ContactComponent";
-import CampsiteInfo from './CampsiteInfoComponents';
+import About from './AboutComponent';
+import Contact from './ContactComponent';
 import Constants from 'expo-constants';
 import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator, DrawerItems } from "react-navigation-drawer";
+import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { createAppContainer } from 'react-navigation';
 import { Icon } from 'react-native-elements';
-import SafeAreaView from "react-native-safe-area-view";
+import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
-import Reservation from './ReservationComponent';
 
 const mapDispatchToProps = {
     fetchCampsites,
@@ -22,40 +19,11 @@ const mapDispatchToProps = {
     fetchPartners
 };
 
-//STACK NAVIGATOR FOR DIRECTORY PAGE
-const DirectoryNavigator = createStackNavigator(
-    {
-        Directory: { 
-            screen: Directory,
-            navigationOptions: ({navigation}) => ({
-                headerLeft: <Icon
-                    name='list'
-                    type='font-awesome'
-                    iconStyle={styles.stackIcon}
-                    onPress={() => navigation.toggleDrawer()}
-                />
-            })
-        },
-        CampsiteInfo: { screen: CampsiteInfo }
-    }, 
-    {
-        initialRouteName: 'Directory',
-        defaultNavigationOptions: {
-            headerStyle: {
-                backgroundColor: '#5637DD'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                color: '#fff'
-            }
-        }
-    }
-);
 
 //STACK NAVIGATOR FOR HOME PAGE
 const HomeNavigator = createStackNavigator(
     {
-        Home: { screen: Home }
+        Home: { screen: About }
     },
     {
         defaultNavigationOptions: ({navigation}) => ({
@@ -76,7 +44,7 @@ const HomeNavigator = createStackNavigator(
     }
 );
 
-//STACK NAVIGATOR FOR ABOUT US PAGE
+//STACK NAVIGATOR FOR ABOUT ME PAGE
 const AboutNavigator = createStackNavigator(
     {
         About: { screen: About }
@@ -100,7 +68,7 @@ const AboutNavigator = createStackNavigator(
     }
 );
 
-//STACK NAVIGATOR FOR CONTACT US PAGE
+//STACK NAVIGATOR FOR CONTACT ME PAGE
 const ContactNavigator = createStackNavigator(
     {
         Contact: { screen: Contact }
@@ -124,30 +92,6 @@ const ContactNavigator = createStackNavigator(
     }
 );
 
-//RESERVATION STACK NAVIGATOR
-const ReservationNavigator = createStackNavigator(
-    {
-        Reservation: { screen: Reservation }
-    },
-    {
-        defaultNavigationOptions: ({navigation}) => ({
-            headerStyle: {
-                backgroundColor: '#5637DD'
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                color: '#fff'
-            },
-            headerLeft: <Icon
-                name='tree'
-                type='font-awesome'
-                iconStyle={styles.stackIcon}
-                onPress={() => navigation.toggleDrawer()}
-            />
-        })
-    }
-);
-
 
 const CustomDrawerContentComponent = props => (
     <ScrollView>
@@ -163,7 +107,7 @@ const CustomDrawerContentComponent = props => (
                     />
                 </View>
                 <View style={{flex: 2}}>
-                    <Text style={styles.drawerHeaderText}>NuCamp</Text>
+                    <Text style={styles.drawerHeaderText}>Shawn Connelly</Text>
                 </View>
             </View>
             <DrawerItems {...props} />
@@ -186,35 +130,9 @@ const MainNavigator = createDrawerNavigator(
                     )
                 } 
         },
-        Directory: { screen: DirectoryNavigator,
-            navigationOptions: {
-                drawerIcon: ({tintColor}) => (
-                    <Icon 
-                        name='list'
-                        type='font-awesome'
-                        size={24}
-                        color={tintColor}
-                    />
-                )
-            } 
-        },
-        Reservation: {
-            screen: ReservationNavigator,
-            navigationOptions: {
-                drawerLabel: 'Reserve Campsite',
-                drawerIcon: ({tintColor}) => (
-                    <Icon
-                        name='tree'
-                        type='font-awesome'
-                        size={24}
-                        color={tintColor}
-                    />
-                )
-            }
-        },
         About: { screen: AboutNavigator,
             navigationOptions: {
-                drawerLabel: 'About Us',
+                drawerLabel: 'About Me',
                 drawerIcon: ({tintColor}) => (
                     <Icon 
                         name='info-circle'
@@ -227,7 +145,7 @@ const MainNavigator = createDrawerNavigator(
         },
         Contact: { screen: ContactNavigator,
             navigationOptions: {
-                drawerLabel: 'Contact Us',
+                drawerLabel: 'Contact Me',
                 drawerIcon: ({tintColor}) => (
                     <Icon 
                         name='address-card'
