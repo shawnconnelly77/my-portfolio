@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import Home from './HomeComponent';
+import Portfolio from './PortfolioComponent';
 import About from './AboutComponent';
 import Contact from './ContactComponent';
 import Constants from 'expo-constants';
+import Experience from './Experience';
 import { View, Platform, StyleSheet, Text, ScrollView, Image } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
@@ -10,20 +11,17 @@ import { createAppContainer } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
-import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners } from '../redux/ActionCreators';
+import { fetchExperience } from '../redux/ActionCreators';
 
 const mapDispatchToProps = {
-    fetchCampsites,
-    fetchComments,
-    fetchPromotions,
-    fetchPartners
+    fetchExperience
 };
 
 
-//STACK NAVIGATOR FOR HOME PAGE
-const HomeNavigator = createStackNavigator(
+//STACK NAVIGATOR FOR PORTFOLIO PAGE
+const PortfolioNavigator = createStackNavigator(
     {
-        Home: { screen: About }
+        Portfolio: { screen: Portfolio }
     },
     {
         defaultNavigationOptions: ({navigation}) => ({
@@ -35,7 +33,7 @@ const HomeNavigator = createStackNavigator(
                 color: '#fff'
             },
             headerLeft: <Icon
-                name='home'
+                name='info-circle'
                 type='font-awesome'
                 iconStyle={styles.stackIcon}
                 onPress={() => navigation.toggleDrawer()}
@@ -92,6 +90,30 @@ const ContactNavigator = createStackNavigator(
     }
 );
 
+//STACK NAVIGATOR FOR WORK EXPERIENCE PAGE
+const ExperienceNavigator = createStackNavigator(
+    {
+        Experience: { screen: Experience }
+    },
+    {
+        defaultNavigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='address-card'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
+
 
 const CustomDrawerContentComponent = props => (
     <ScrollView>
@@ -118,11 +140,11 @@ const CustomDrawerContentComponent = props => (
 //ROUTE THE STACK NAVIGATORS THROUGH THE DRAWER NAVIGATOR
 const MainNavigator = createDrawerNavigator(
     {
-        Home: { screen: HomeNavigator,
+        Portfolio: { screen: PortfolioNavigator,
                 navigationOptions: {
                     drawerIcon: ({tintColor}) => (
                         <Icon 
-                            name='home'
+                            name='info-circle'
                             type='font-awesome'
                             size={24}
                             color={tintColor}
@@ -155,6 +177,19 @@ const MainNavigator = createDrawerNavigator(
                     />
                 )
             } 
+        },
+        Experience: { screen: ExperienceNavigator,
+            navigationOptions: {
+                drawerLabel: 'Work Experience',
+                drawerIcon: ({tintColor}) => (
+                    <Icon 
+                        name='address-card'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            } 
         }
     },
     {
@@ -169,10 +204,7 @@ const AppNavigator = createAppContainer(MainNavigator);
 class Main extends Component {
 
     componentDidMount() {
-        this.props.fetchCampsites();
-        this.props.fetchComments();
-        this.props.fetchPromotions();
-        this.props.fetchPartners();
+        this.props.fetchExperience();
     }
 
     render() {
